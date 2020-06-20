@@ -8,7 +8,6 @@ StartLimitBurst=3
 
 [Service]
 WorkingDirectory=/etc/default/docker-compose@%i
-EnvironmentFile=/etc/default/docker-compose@%i/.env
 
 ExecStartPre=-/usr/bin/docker-compose kill
 ExecStartPre=-/usr/bin/docker-compose rm -fv
