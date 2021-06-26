@@ -3,62 +3,16 @@
 #+OPTIONS: ^:{} toc:nil num:nil date:nil author:nil
 #+BIND: org-html-toplevel-hlevel 3
 
-* systemd service template for docker-compose
+* systemd-docker-compose
 
-  docker-compose で定義したサービスを systemd で常時起動にする。
-  - 注: Ubuntu 18.04 対応
-
-  : make install
-
-  : make remove
-
-  上記の =make remove= はインストールしたファイルを削除するだけなので、
-  前後に必要に応じたオペレーションをすること。
+  docker-compose で定義したサービスを systemd で制御する。
 
 
-** COMMENT docker-compose コマンドが見る環境変数
+** r10k puppetfile
 
-   関係のありそうなものだけ
-
-   - COMPOSE_PROJECT_NAME
-   - COMPOSE_FILE
-   - COMPOSE_PATH_SEPARATOR
-
-   参考情報:
-   - [[https://docs.docker.com/compose/reference/envvars/][Compose CLI environment variables]] -- Docker Documentation
-
-
-** COMMENT systemd サービス追加・削除の手順
-
-   ユニット・ファイルのインストール:
-
-   1. ユニット・ファイル ( =SERVICE_NAME.service= など) を =/lib/systemd/system= の下に置く
-
-   2. systemd に認識させる:
-      : systemctl preset SERVICE...
-
-      - =systemctl preset= した直後の enable/disable は
-        =/lib/systemd/system-preset/= の下に置いた =*.preset= ファイルで定義する
-
-
-   ユニット・ファイルの更新:
-
-   1. ユニット・ファイルを差し替える
-
-   2. サービスを再起動する
-     : systemctl try-restart SERVICE...
-
-
-   ユニット・ファイルのアンインストール:
-
-   1. サービスを停止する
-     : systemctl --no-reload disable SERVICE...
-     : systemctl stop SERVICE...
-
-   2. ユニット・ファイルを削除する
-
-** 参考情報
-
-   - [[https://qiita.com/kanga/items/5f956bc47068c9774522][Systemdとdocker-composeでカジュアルにdockerを運用する]] - Qiita
-   - [[https://qiita.com/gymnstcs/items/df9082f846558f30c406][ubuntu上でdocker-composeをsystemdで管理する]] - Qiita
-   - [[https://philipp-weissmann.de/blog/docker-services-via-docker-compose-und-systemd-template/][Docker services via docker-compose und systemd template]]
+   #+BEGIN_SRC ruby
+mod 'systemd_docker_compose',
+    :git => 'https://github.com/nekonaq/systemd-docker-compose.git',  # HTTPS
+    # :git => 'git@github.com:nekonaq/systemd-docker-compose.git',      # SSH
+    :branch => 'main'
+   #+END_SRC

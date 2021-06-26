@@ -1,9 +1,13 @@
+<%- | String	$timeout_start_sec,
+      Integer	$start_limit_burst,
+      Integer	$start_limit_interval_sec,
+| -%>
 [Unit]
 Description=%i service with docker-compose
 Requires=docker.service
 After=docker.service
-StartLimitBurst=3
-StartLimitIntervalSec=20
+StartLimitBurst=<%= $start_limit_burst %>
+StartLimitIntervalSec=<%= $start_limit_interval_sec %>
 
 [Service]
 WorkingDirectory=/etc/default/docker-compose@%i
@@ -22,7 +26,7 @@ ExecStop=-/usr/bin/docker-compose down
 ExecReload=-/bin/sh -c "/usr/bin/docker-compose kill -s $${RELOAD_SIGNAL:-HUP}"
 
 Restart=always
-TimeoutStartSec=180s
+TimeoutStartSec=<%= $timeout_start_sec %>
 
 [Install]
 WantedBy=multi-user.target
