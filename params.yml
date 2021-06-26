@@ -1,0 +1,5 @@
+---
+systemd_docker_compose::settings:
+  timeout_start_sec: 180s                  # systemd.service TimeoutStartSec
+  start_limit_burst: 1                     # systemd.unit StartLimitBurst
+  start_limit_interval_sec: 10             # systemd.unit StartLimitIntervalSec
